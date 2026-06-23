@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { authClient } from '@/lib/auth/client';
 import { useRouter } from 'next/navigation';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 export function SignUpForm() {
 	const router = useRouter();
@@ -17,21 +18,25 @@ export function SignUpForm() {
 
 	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
 		e.preventDefault();
+		setLoading(true);
+		try {
+			const { error } = await authClient.signUp.email({
+				name,
+				email,
+				password,
+			});
 
-		const { data, error } = await authClient.signUp.email({
-			name,
-			email,
-			password,
-		});
+			if (error) {
+				console.log(error);
+				return;
+			}
 
-		console.log('data:', data);
-		console.log('error:', error);
-		if (error) {
+			router.push('/dashboard');
+		} catch (error) {
 			console.log(error);
-			return;
+		} finally {
+			setLoading(false);
 		}
-
-		router.push('/dashboard');
 	}
 
 	return (
@@ -77,7 +82,9 @@ export function SignUpForm() {
 				disabled={loading}
 				className='gradient-violet glow-sm mt-2 h-10 text-primary-foreground'
 			>
-				{/* {loading && <Loader2 className='size-4 animate-spin' />} */}
+				{loading && (
+					<AiOutlineLoading3Quarters className='animate-spin mr-2' size={16} />
+				)}
 				Create Account
 			</Button>
 		</form>
