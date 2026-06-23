@@ -1,7 +1,6 @@
 generator client {
-  provider   = "prisma-client-js"
-  output     = "../lib/generated/prisma"
-  engineType = "library"
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
 }
 
 datasource db {
@@ -37,11 +36,13 @@ model Session {
 
 model Account {
   id           String    @id @default(cuid())
+  accountId     String    
   userId       String
   providerId   String
   accessToken  String?
   refreshToken String?
   expiresAt    DateTime?
+  password      String? 
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
