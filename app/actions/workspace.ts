@@ -1,0 +1,39 @@
+'use server';
+
+import { prisma } from '@/lib/auth';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { revalidatePath } from 'next/cache';
+
+export async function createWorkspace(name: string, description?: string) {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session) throw new Error('Unauthorized');
+
+	const workspace = await prisma.workspace.create({
+		data: {
+			name,
+			description,
+			userId: session.user.id,
+		},
+	});
+
+	revalidatePath('/dashboard');
+	return workspace;
+}
+export async function getWorkspaces() {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session) throw new Error('Unauthorized');
+
+	const workspace = await prisma.workspace.findMany({
+		where: { userId: session.user.id },
+		orderBy: { createdAt: 'desc' },
+	});
+
+	return workspace;
+}
