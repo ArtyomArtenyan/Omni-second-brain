@@ -37,3 +37,20 @@ export async function getWorkspaces() {
 
 	return workspace;
 }
+
+export async function getWorkspace(id: string) {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session) throw new Error('Unauthorized');
+
+	const workspace = await prisma.workspace.findFirst({
+		where: {
+			id,
+			userId: session.user.id,
+		},
+	});
+
+	return workspace;
+}

@@ -1,4 +1,4 @@
-import { createWorkspace, getWorkspaces } from '@/app/actions/workspace';
+import { getWorkspaces } from '@/app/actions/workspace';
 import { AppSidebar } from '@/components/dashboard/sidebar';
 import { TopBar } from '@/components/dashboard/top-bar';
 import { WorkspaceGrid } from '@/components/dashboard/workspace-grid';
