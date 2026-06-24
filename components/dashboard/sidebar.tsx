@@ -34,10 +34,11 @@ export function AppSidebar({
 	const initials = user?.name ? getInitials(user.name) : '?';
 
 	const pathname = usePathname();
-	console.log(pathname);
-
 	async function handleCreate() {
-		await createWorkspace('new Workspace');
+		await createWorkspace(
+			'new Workspace',
+			'A new workspace for organizing ideas, notes, and knowledge.',
+		);
 	}
 
 	return (

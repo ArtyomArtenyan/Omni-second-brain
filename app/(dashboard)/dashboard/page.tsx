@@ -1,6 +1,7 @@
-import { getWorkspaces } from '@/app/actions/workspace';
+import { createWorkspace, getWorkspaces } from '@/app/actions/workspace';
 import { AppSidebar } from '@/components/dashboard/sidebar';
 import { TopBar } from '@/components/dashboard/top-bar';
+import { WorkspaceGrid } from '@/components/dashboard/workspace-grid';
 
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
@@ -13,7 +14,6 @@ export default async function DashboardPage() {
 	// console.log(user);
 
 	const workspaces = await getWorkspaces();
-	console.log(workspaces);
 
 	return (
 		<div className='flex h-dvh bg-background'>
@@ -37,6 +37,7 @@ export default async function DashboardPage() {
 								Recent workspaces
 							</h2>
 						</div>
+						<WorkspaceGrid workspaces={workspaces} />
 					</div>
 				</main>
 			</div>
