@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { FileText, Clock, Plus } from 'lucide-react';
 import { createWorkspace } from '@/app/actions/workspace';
-import { useEffect, useState } from 'react';
 
 type Workspace = {
 	id: string;
@@ -11,14 +10,10 @@ type Workspace = {
 	createdAt: Date;
 	updatedAt: Date;
 	userId: string;
+	color: string;
 };
 
 export function WorkspaceGrid({ workspaces }: { workspaces: Workspace[] }) {
-	const [isClient, setIsClient] = useState(false);
-
-	useEffect(() => {
-		setIsClient(true);
-	}, []);
 	async function handleCreate() {
 		await createWorkspace(
 			'new Workspace',
@@ -36,7 +31,7 @@ export function WorkspaceGrid({ workspaces }: { workspaces: Workspace[] }) {
 					<div className='flex items-start justify-between'>
 						<span
 							className='flex size-10 items-center justify-center rounded-xl'
-							// style={{ backgroundColor: `${ws.color}` }}
+							style={{ backgroundColor: `${ws.color}` }}
 						>
 							<FileText className='size-5 text-primary-foreground' />
 						</span>

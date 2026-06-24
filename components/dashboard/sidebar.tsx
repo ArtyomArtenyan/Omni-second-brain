@@ -22,6 +22,7 @@ type Workspace = {
 	description?: string | null;
 	createdAt: Date;
 	userId: string;
+	color: string;
 };
 
 export function AppSidebar({
@@ -87,7 +88,7 @@ export function AppSidebar({
 						>
 							<span
 								className='size-2.5 shrink-0 rounded-sm'
-								// style={{ backgroundColor: ws.color }}
+								style={{ backgroundColor: ws.color }}
 							/>
 							<span className='truncate'>{ws.name}</span>
 						</Link>

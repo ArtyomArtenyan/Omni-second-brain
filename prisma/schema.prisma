@@ -53,6 +53,7 @@ model Workspace {
   id          String     @id @default(cuid())
   name        String
   description String?
+  color       String   @default("#6366f1")
   userId      String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
