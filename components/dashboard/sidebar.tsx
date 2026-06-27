@@ -2,13 +2,32 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Plus, LayoutGrid, Settings } from 'lucide-react';
+import {
+	Plus,
+	LayoutGrid,
+	Settings,
+	Pencil,
+	Ellipsis,
+	PencilIcon,
+	ShareIcon,
+	TrashIcon,
+} from 'lucide-react';
 
 import { OmniLogo } from '@/components/omni-logo';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getInitials } from '@/lib/utils';
 import { createWorkspace, getWorkspaces } from '@/app/actions/workspace';
+import { BsThreeDots } from 'react-icons/bs';
+import { useState } from 'react';
+import {
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenu,
+} from '../ui/dropdown-menu';
 
 type User = {
 	name: string;
@@ -77,7 +96,8 @@ export function AppSidebar({
 							key={ws.id}
 							href={href}
 							className={`
-								flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors
+								group
+								flex items-center  justify-between gap-2.5 rounded-lg px-3 py-2 text-sm transition-colors
 							
 							 ${
 									active
@@ -86,11 +106,42 @@ export function AppSidebar({
 								}
 								`}
 						>
-							<span
-								className='size-2.5 shrink-0 rounded-sm'
-								style={{ backgroundColor: ws.color }}
-							/>
-							<span className='truncate'>{ws.name}</span>
+							<div className='flex items-center gap-2.5'>
+								<span
+									className='size-2.5 shrink-0 rounded-sm'
+									style={{ backgroundColor: ws.color }}
+								/>
+								<span className='truncate'>{ws.name}</span>
+							</div>
+
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<button
+										type='button'
+										onClick={e => e.preventDefault()}
+										className='opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg hover:bg-secondary'
+									>
+										<Ellipsis className='size-4 text-muted-foreground' />
+									</button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent side='right'>
+									<DropdownMenuGroup>
+										<DropdownMenuItem>
+											<PencilIcon />
+											Edit
+										</DropdownMenuItem>
+										<DropdownMenuItem>
+											<ShareIcon />
+											Share
+										</DropdownMenuItem>
+									</DropdownMenuGroup>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem variant='destructive'>
+										<TrashIcon />
+										Delete
+									</DropdownMenuItem>
+								</DropdownMenuContent>
+							</DropdownMenu>
 						</Link>
 					);
 				})}
