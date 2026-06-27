@@ -54,3 +54,55 @@ export async function getWorkspace(id: string) {
 
 	return workspace;
 }
+
+export async function updateWorkspace(
+	id: string,
+	name: string,
+	color?: string,
+	description?: string,
+) {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session) throw new Error('Unauthorized');
+
+	const workspace = await prisma.workspace.update({
+		where: {
+			id,
+			userId: session.user.id,
+		},
+
+		data: {
+			name,
+			description,
+			color,
+		},
+	});
+
+	revalidatePath('/dashboard');
+	revalidatePath(`/workspace/${id}`);
+
+	return workspace;
+}
+
+export async function deleteWorkspace(id: string) {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
+
+	if (!session) throw new Error('Unauthorized');
+
+	const workspace = await prisma.workspace.delete({
+		where: {
+			id,
+			userId: session.user.id,
+		},
+	});
+
+	revalidatePath('/dashboard');
+	revalidatePath(`/workspace/${id}`);
+
+	return workspace;
+}
+
