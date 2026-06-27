@@ -11,7 +11,6 @@ export default async function DashboardPage() {
 		headers: await headers(),
 	});
 	const user = session?.user;
-	// console.log(user);
 
 	const workspaces = await getWorkspaces();
 
